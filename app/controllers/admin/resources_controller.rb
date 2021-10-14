@@ -199,7 +199,7 @@ class Admin::ResourcesController < Admin::BaseController
   end
 
   def redirect_on_success
-    path = params.dup.cleanup
+    path = params.to_unsafe_h.cleanup
 
     options = if params[:_addanother]
       { action: 'new', id: nil }
