@@ -88,7 +88,7 @@ class Admin::ResourcesController < Admin::BaseController
     cleanup_attributes_before_update
 
     respond_to do |format|
-      if @item.update_attributes(item_params_for_update)
+      if @item.update(item_params_for_update)
         set_attributes_on_update
         format.html { redirect_on_success }
         format.json { render json: @item }
