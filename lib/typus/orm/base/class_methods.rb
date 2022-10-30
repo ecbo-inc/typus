@@ -150,7 +150,7 @@ module Typus
         end
 
         def adapter
-          @adapter ||= ::ActiveRecord::Base.connection_config[:adapter]
+          @adapter ||= ::ActiveRecord::Base.connection_db_config.configuration_hash[:adapter]
         end
 
         def typus_user_id?
