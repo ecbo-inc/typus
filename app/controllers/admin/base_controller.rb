@@ -5,6 +5,7 @@ class Admin::BaseController < ActionController::Base
   protect_from_forgery with: :exception
 
   include Admin::Hooks
+  include Admin::RoutesHelper
   include Typus::Authentication::const_get(Typus.authentication.to_s.classify)
 
   before_action :verify_remote_ip, :reload_config_and_roles, :authenticate, :set_locale
