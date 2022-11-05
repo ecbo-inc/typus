@@ -56,4 +56,8 @@ module Admin::RoutesHelper
   def model_name_in_locale(model_name)
     I18n.t(model_name.to_s.underscore, scope: "activerecord.models")
   end
+
+  def destroy_admin_session_path
+    ENV["AUTH_HOST"] + "/admin_users/sign_out"
+  end
 end
