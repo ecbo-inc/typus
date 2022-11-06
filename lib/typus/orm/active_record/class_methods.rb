@@ -19,8 +19,19 @@ module Typus
           end
         end
 
+        def model_virtual_relationships
+          data = read_model_config['virtual_association_fields']
+          return {} unless data
+
+          hash = {}
+          data.each do |k, v|
+            hash[k.to_sym] = "virtual_#{v['association_type']}"
+          end
+          hash
+        end
+
         def typus_supported_attributes
-          [:virtual, :custom, :association, :selector, :dragonfly, :paperclip]
+          [:virtual, :custom, :association, :selector, :dragonfly, :paperclip, :virtual_association]
         end
 
         def typus_fields_for(filter)
@@ -82,7 +93,7 @@ module Typus
         def typus_filters
           filters = ActiveSupport::OrderedHash.new.tap do |fields_with_type|
             get_typus_filters.each do |field|
-              fields_with_type[field.to_s] = association_attribute?(field) || model_fields[field.to_sym]
+              fields_with_type[field.to_s] = association_attribute?(field) || virtual_association_attribute?(field) || model_fields[field.to_sym]
             end
           end
           # Remove unsupported filters!
@@ -98,6 +109,12 @@ module Typus
           columns.map(&:name).include?(Typus.user_foreign_key)
         end
 
+        def virtual_association_attribute?(field)
+          data = read_model_config['virtual_association_fields']
+          return unless data && data[field.to_s] && data[field.to_s]['association_type']
+
+          "virtual_#{data[field.to_s]['association_type']}".to_sym
+        end
       end
     end
   end
