@@ -32,7 +32,6 @@ Rails.application.routes.draw do
       get "#{_resource}(/:action(/:id))(.:format)", controller: _resource
       post "#{_resource}(/:action(/:id))(.:format)", controller: _resource
     end
-
   end
 
   if Typus.subdomain

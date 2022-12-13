@@ -124,6 +124,14 @@ class Admin::ResourcesController < Admin::BaseController
     end
   end
 
+  def search
+    items = @resource.search_by_keyword(params[:q]).page(params[:page]).per(20)
+    render json: {
+      items: items.map { |i| {id: i.id, text: i.to_label} },
+      has_more: items.next_page.present?
+    }, status: 200
+  end
+
   private
 
   def get_model
