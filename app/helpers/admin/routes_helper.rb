@@ -40,7 +40,11 @@ module Admin::RoutesHelper
       SubAreaSection: "space",
       SubCategory: "space",
       TrainsLine: "space",
-      User: "auth"
+      User: "auth",
+      Locker: "space",
+      LockerPhoto: "space",
+      LockerPrice: "space",
+      LockerType: "space"
     }
   end
 
