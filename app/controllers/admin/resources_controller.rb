@@ -157,6 +157,7 @@ class Admin::ResourcesController < Admin::BaseController
 
   def get_objects
     cleanup_params
+    set_default_scope
     set_scope
     set_wheres
     set_joins
@@ -169,6 +170,12 @@ class Admin::ResourcesController < Admin::BaseController
     @resource.typus_fields_for(params[:action])
   end
   helper_method :fields
+
+  def set_default_scope
+    @resource.typus_default_scopes.each do |scope|
+      @resource = @resource.send(scope)
+    end
+  end
 
   def set_scope
     return unless params[:scope]
