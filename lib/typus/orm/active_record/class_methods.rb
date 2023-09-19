@@ -115,6 +115,10 @@ module Typus
 
           "virtual_#{data[field.to_s]['association_type']}".to_sym
         end
+
+        def custom_actions
+          read_model_config["custom_actions"]
+        end
       end
     end
   end
