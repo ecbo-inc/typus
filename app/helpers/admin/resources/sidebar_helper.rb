@@ -33,7 +33,7 @@ module Admin::Resources::SidebarHelper
 
   def sidebar_custom_actions
     custom_actions = @resource.custom_actions
-    return if custom_actions.empty?
+    return if custom_actions.blank?
 
     custom_actions.map do |_, v|
       {
