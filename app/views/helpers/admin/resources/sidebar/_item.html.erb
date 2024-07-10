@@ -14,7 +14,7 @@
     <% item_actions.each do |key, value| %>
       <% if admin_user.can?(key.to_s, @resource.model_name) %>
         <li class="<%= params[:action].to_sym.eql?(key) ? 'active' : 'inactive' %>">
-          <%= link_to url_for(params.merge(action: key)), data: value[:data] do %>
+          <%= link_to url_for(params.to_unsafe_h.merge(action: key)), data: value[:data] do %>
             <span class="glyphicon glyphicon-<%= value[:icon] %>"></span>
             <%= value[:message] %>
           <% end %>

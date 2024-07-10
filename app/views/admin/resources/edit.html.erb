@@ -12,7 +12,7 @@
 
   <%= admin_display_flash_message %>
 
-  <% locals = { options: params.dup.cleanup.merge!(action: 'update') } %>
+  <% locals = { options: params.to_unsafe_h.cleanup.merge!(action: 'update') } %>
   <%= render 'form', locals %>
 
   <% unless headless_mode? %>

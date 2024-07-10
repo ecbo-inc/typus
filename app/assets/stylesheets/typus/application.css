@@ -2,5 +2,10 @@
 *= require chosen
 *= require typus/signin
 *= require typus/overrides
+*= require typus/select2.min
 *= require typus/custom
 */
+
+.select2-field {
+  min-width: 300px;
+}
