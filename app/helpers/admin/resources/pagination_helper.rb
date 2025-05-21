@@ -15,11 +15,11 @@ module Admin::Resources::PaginationHelper
     current_page = (params[:offset].to_f / params[:per_page]) + 1
     num_pages = (resource.count.to_f / params[:per_page]).ceil
     unless current_page >= num_pages
-      options[:next] = params.merge(offset: next_offset)
+      options[:next] = params.to_unsafe_h.merge(offset: next_offset)
     end
 
     if previous_offset >= 0
-      options[:previous] = params.merge(offset: previous_offset)
+      options[:previous] = params.to_unsafe_h.merge(offset: previous_offset)
     end
 
     render 'admin/resources/pagination', { options: options }

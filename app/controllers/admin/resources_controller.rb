@@ -8,11 +8,11 @@ class Admin::ResourcesController < Admin::BaseController
 
   Whitelist = [:edit, :update, :destroy, :toggle]
 
-  before_filter :get_model
-  before_filter :set_context
-  before_filter :get_object, only: Whitelist + [:show]
-  before_filter :check_resource_ownership, only: Whitelist
-  before_filter :check_if_user_can_perform_action_on_resources
+  before_action :get_model
+  before_action :set_context
+  before_action :get_object, only: Whitelist + [:show]
+  before_action :check_resource_ownership, only: Whitelist
+  before_action :check_if_user_can_perform_action_on_resources
 
   def index
     get_objects
@@ -88,7 +88,7 @@ class Admin::ResourcesController < Admin::BaseController
     cleanup_attributes_before_update
 
     respond_to do |format|
-      if @item.update_attributes(item_params_for_update)
+      if @item.update(item_params_for_update)
         set_attributes_on_update
         format.html { redirect_on_success }
         format.json { render json: @item }
@@ -124,6 +124,14 @@ class Admin::ResourcesController < Admin::BaseController
     end
   end
 
+  def search
+    items = @resource.search_by_keyword(params[:q]).page(params[:page]).per(20)
+    render json: {
+      items: items.map { |i| {id: i.id, text: i.to_label} },
+      has_more: items.next_page.present?
+    }, status: 200
+  end
+
   private
 
   def get_model
@@ -149,6 +157,7 @@ class Admin::ResourcesController < Admin::BaseController
 
   def get_objects
     cleanup_params
+    set_default_scope
     set_scope
     set_wheres
     set_joins
@@ -161,6 +170,12 @@ class Admin::ResourcesController < Admin::BaseController
     @resource.typus_fields_for(params[:action])
   end
   helper_method :fields
+
+  def set_default_scope
+    @resource.typus_default_scopes.each do |scope|
+      @resource = @resource.send(scope)
+    end
+  end
 
   def set_scope
     return unless params[:scope]
@@ -199,7 +214,7 @@ class Admin::ResourcesController < Admin::BaseController
   end
 
   def redirect_on_success
-    path = params.dup.cleanup
+    path = params.to_unsafe_h.cleanup
 
     options = if params[:_addanother]
       { action: 'new', id: nil }

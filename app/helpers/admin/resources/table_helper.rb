@@ -33,7 +33,7 @@ module Admin::Resources::TableHelper
           switch = "<span class='#{sort_order.last}'><span class='caret'></span></span>" if params[:order_by].eql?(order_by)
           options = { order_by: order_by, sort_order: sort_order.first }
           message = [content, switch].compact.join(' ').html_safe
-          content = link_to(message, params.merge(options))
+          content = link_to(message, params.to_unsafe_h.merge(options))
         end
       end
 
@@ -60,7 +60,7 @@ module Admin::Resources::TableHelper
 
       {
         message: t(body),
-        url: params.dup.cleanup.merge({controller: "/admin/#{model.to_resource}", id: item.id}).merge(url),
+        url: params.to_unsafe_h.cleanup.merge({controller: "/admin/#{model.to_resource}", id: item.id}).merge(url),
         options: options,
       }
     end.compact

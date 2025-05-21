@@ -38,6 +38,10 @@ module Typus
           typus_defaults_for(:scopes).reject { |s| !respond_to?(s) }
         end
 
+        def typus_default_scopes
+          typus_defaults_for(:default_scopes).reject { |s| !respond_to?(s) }
+        end
+
         def typus_search_fields
           Hash.new.tap do |search|
             typus_defaults_for(:search).each do |field|
@@ -150,7 +154,7 @@ module Typus
         end
 
         def adapter
-          @adapter ||= ::ActiveRecord::Base.connection_config[:adapter]
+          @adapter ||= ::ActiveRecord::Base.connection_db_config.configuration_hash[:adapter]
         end
 
         def typus_user_id?
