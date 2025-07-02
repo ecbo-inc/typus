@@ -46,6 +46,7 @@ module Admin::RoutesHelper
       LockerPrice: "space",
       LockerType: "space",
       PrioritySpace: "space",
+      Location: "space",
       "Jre::Booking": "booking"
     }
   end
