@@ -47,7 +47,8 @@ module Admin::RoutesHelper
       LockerType: "space",
       PrioritySpace: "space",
       Location: "space",
-      "Jre::Booking": "booking"
+      "Jre::Booking": "booking",
+      "GoogleMapApiLog": "space"
     }
   end
 
