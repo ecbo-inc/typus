@@ -32,7 +32,7 @@ module Admin
         end
       end
 
-      send_data data, filename: "export-#{@resource.to_resource}-#{Time.zone.now.to_s(:number)}.csv"
+      send_data data, filename: "export-#{@resource.to_resource}-#{Time.zone.now.to_fs(:number)}.csv"
     end
 
     def export(format)
