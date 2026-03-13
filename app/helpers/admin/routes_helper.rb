@@ -41,6 +41,7 @@ module Admin::RoutesHelper
       SubCategory: "space",
       TrainsLine: "space",
       User: "auth",
+      Location: "space",
       Locker: "space",
       LockerPhoto: "space",
       LockerPrice: "space",
